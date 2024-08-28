@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SignInFlow } from "@/features/auth/types";
 import SigninCard from "@/features/auth/components/sign-in-card";
 import SignupCard from "@/features/auth/components/sign-up-card";
+import { signOutAction } from "@/app/actions/auth-actions";
 
 export default function AuthScreen() {
   const [state, setState] = useState<SignInFlow>("signIn");
@@ -15,6 +16,7 @@ export default function AuthScreen() {
         ) : (
           <SignupCard setState={setState} />
         )}
+        <button onClick={async () => await signOutAction()}>SignOut</button>
       </div>
     </div>
   );

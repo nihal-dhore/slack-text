@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 interface CustomNextRequest extends NextRequest {
@@ -8,9 +9,10 @@ interface CustomNextRequest extends NextRequest {
 export default async function middleware(req: CustomNextRequest) {
   const session = await auth();
 
+
   if (!session?.user) {
 
-    if (req.nextUrl.pathname.startsWith("/api")) return NextResponse.json({
+    if (req.nextUrl.pathname.startsWith("/api/v1")) return NextResponse.json({
       error: "Unauthorized Request",
     }, {
       status: 401
@@ -24,5 +26,5 @@ export default async function middleware(req: CustomNextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!auth).*)']
+  matcher: ['/((?!|api/auth|auth|_next/static|_next/image|.*\\.png$).*)']
 };

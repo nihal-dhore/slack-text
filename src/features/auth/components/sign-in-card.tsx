@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { SignInFlow } from "../types";
+import { signInWithProvider } from "@/app/actions/auth-actions";
 
 interface SigninCardProps {
   setState: (state: SignInFlow) => void;
@@ -20,6 +22,10 @@ interface SigninCardProps {
 export default function SigninCard({ setState }: SigninCardProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleProviderSignin = async (value: "github" | "google") => {
+    await signInWithProvider(value);
+  };
 
   return (
     <Card className="w-full h-full p-8">
@@ -59,7 +65,9 @@ export default function SigninCard({ setState }: SigninCardProps) {
         <div className="flex flex-col items-center gap-y-2.5">
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => {
+              handleProviderSignin("google");
+            }}
             variant={"outline"}
             size={"lg"}
             className="w-full relative">
@@ -68,7 +76,7 @@ export default function SigninCard({ setState }: SigninCardProps) {
           </Button>
           <Button
             disabled={false}
-            onClick={() => {}}
+            onClick={() => handleProviderSignin("github")}
             variant={"outline"}
             size={"lg"}
             className="w-full relative">
